@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, private">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Last-Modified" content="Wed, 15 Oct 2025 14:25:00 GMT">
+  <title>Календарь встреч</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
+  <link rel="stylesheet" href="style.css?v=1759953000&nocache=1&t=1759953000">
+</head>
+<body>
+  <div id="app">
+    <!-- Левая колонка (список слотов и событий) -->
+    <aside id="sidebar">
+      <!-- Поле поиска -->
+      <div id="search-container">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" id="search-input" placeholder="Event search..." style="flex: 1;" />
+        <button id="google-sync-btn" class="google-sync-button" title="Синхронизация с Google Calendar" style="display: none;">📅</button>
+        <button id="settings-btn" class="settings-button" title="Настройки участников">⚙️</button>
+      </div>
+        <div id="search-results"></div>
+      </div>
+      <div id="openquestions-header">
+        <button id="openquestions-btn" class="openquestions-button">Open Questions: summary</button>
+      </div>
+      <div id="future-calendar-picker-btn" class="sidebar-banner calendar-picker-button">📅 Pick a future date</div>
+      <div id="future-7" class="sidebar-banner"></div>
+      <div id="future-6" class="sidebar-banner"></div>
+      <div id="future-5" class="sidebar-banner"></div>
+      <div id="future-4" class="sidebar-banner"></div>
+      <div id="future-3" class="sidebar-banner"></div>
+      <div id="future-date-banner" class="sidebar-banner">4 октября 2025 года</div>
+      <div id="tomorrow-banner" class="sidebar-banner">Завтра</div>
+      <div id="today-banner" class="sidebar-banner">Сегодня</div>
+      <div id="sidebar-content">
+        <!-- Morning ToDos Slot Button (above 8 AM) -->
+        <div class="morning-todos-slot-container">
+          <div class="morning-todos-time">08:00</div>
+          <button class="slot morning-todos-slot" id="morning-todos-slot-btn">
+            🌅 Morning ToDos
+          </button>
+        </div>
+        
+        <div id="date-list"></div>
+        <ul id="all-slots"></ul>
+        
+        <!-- Evening Conclusions Slot Button (below 10 PM) -->
+        <div class="evening-conclusions-slot-container">
+          <div class="evening-conclusions-time">22:00</div>
+          <button class="slot evening-conclusions-slot" id="evening-conclusions-slot-btn">
+            🌙 Evening Conclusions
+          </button>
+        </div>
+      </div>
+      <div id="yesterday-banner" class="sidebar-banner">Вчера</div>
+      <div id="past-date-banner" class="sidebar-banner"></div>
+      <div id="past-3" class="sidebar-banner"></div>
+      <div id="past-4" class="sidebar-banner"></div>
+      <div id="past-5" class="sidebar-banner"></div>
+      <div id="past-6" class="sidebar-banner"></div>
+      <div id="past-7" class="sidebar-banner"></div>
+      <div id="calendar-picker-btn" class="sidebar-banner calendar-picker-button">📅 Pick a past date</div>
+    </aside>
+
+    <!-- Центральная часть (детали встречи) -->
+    <main id="details">
+      <div id="event-details"></div>
+    </main>
+  </div>
+
+    <script src="script.js?v=1759956000&nocache=1&t=1759956000&bust=1759956000"></script>
+</body>
+</html>
