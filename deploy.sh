@@ -20,29 +20,46 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
     exit 1
 fi
 
-# Проверка наличия архива
-if [ ! -f "Officer-Calendar-20251017-140345.tar.gz" ]; then
-    echo -e "${YELLOW}❌ Архив не найден. Убедитесь, что вы в правильной директории.${NC}"
+# Поиск архива
+ARCHIVE_NAME=$(ls Officer-Calendar-*.tar.gz 2>/dev/null | head -n 1)
+if [ -z "$ARCHIVE_NAME" ]; then
+    echo -e "${YELLOW}❌ Архив Officer-Calendar-*.tar.gz не найден в текущей директории.${NC}"
     exit 1
 fi
 
-# Проверка checksum
-echo -e "${BLUE}🔍 Проверка целостности архива...${NC}"
-if shasum -a 256 -c Officer-Calendar-20251017-140345.tar.gz.sha256 > /dev/null 2>&1; then
-    echo -e "${GREEN}✅ Архив проверен${NC}"
+echo -e "${BLUE}📦 Найден архив: $ARCHIVE_NAME${NC}"
+
+# Проверка checksum файла
+CHECKSUM_FILE="$ARCHIVE_NAME.sha256"
+if [ ! -f "$CHECKSUM_FILE" ]; then
+    echo -e "${YELLOW}⚠️  Checksum файл ($CHECKSUM_FILE) не найден. Проверка целостности архива будет пропущена.${NC}"
 else
-    echo -e "${YELLOW}⚠️  Ошибка проверки checksum${NC}"
-    read -p "Продолжить? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
+    echo -e "${BLUE}🔍 Проверка целостности архива...${NC}"
+    if shasum -a 256 -c "$CHECKSUM_FILE" --status; then
+        echo -e "${GREEN}✅ Целостность архива подтверждена.${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Ошибка проверки целостности архива! Возможно, файл поврежден или изменен.${NC}"
+        read -p "Продолжить? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            exit 1
+        fi
     fi
 fi
 
 # Распаковка архива
-echo -e "${BLUE}📦 Распаковка архива...${NC}"
-tar -xzf Officer-Calendar-20251017-140345.tar.gz
-cd Officer-Calendar-20251017-140345
+echo -e "${BLUE}📦 Распаковка архива: $ARCHIVE_NAME...${NC}"
+tar -xzf "$ARCHIVE_NAME"
+
+# Определение имени распакованной директории
+EXTRACTED_DIR=$(basename "$ARCHIVE_NAME" .tar.gz)
+if [ ! -d "$EXTRACTED_DIR" ]; then
+    echo -e "${YELLOW}❌ Не удалось найти распакованную директорию: $EXTRACTED_DIR${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ Архив успешно распакован в $EXTRACTED_DIR${NC}"
+cd "$EXTRACTED_DIR"
 
 # Запуск установки
 echo -e "${BLUE}🔧 Запуск автоматической установки...${NC}"
